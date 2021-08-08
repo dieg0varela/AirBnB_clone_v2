@@ -144,7 +144,6 @@ class HBNBCommand(cmd.Cmd):
             attrs[key] = value
         new_instance.__dict__ = attrs
 
-        storage.save()
         print(new_instance.id)
         storage.save()
 
