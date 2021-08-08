@@ -123,7 +123,7 @@ class HBNBCommand(cmd.Cmd):
         if arr[0] not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        
+
         new_instance = HBNBCommand.classes[arr[0]]()
         attrs = new_instance.__dict__
 
