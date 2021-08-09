@@ -148,6 +148,7 @@ class HBNBCommand(cmd.Cmd):
         new_instance.__dict__ = attrs
 
         print(new_instance.id)
+        storage.new(new_instance)
         storage.save()
 
     def help_create(self):
@@ -243,8 +244,10 @@ class HBNBCommand(cmd.Cmd):
                                       pool_pre_ping=True)
                 Session = sessionmaker(bind=engine)
                 new_session = Session()
-                for item in new_session.query(eval(args)).all():
-                    print_list.append(item)
+                rows = new_session.query(eval(args)).all()
+                print(rows)
+                for i in range(0, len(rows)):
+                    print_list.append(rows[i])
         else:
             for k, v in storage._FileStorage__objects.items():
                 print_list.append(str(v))
