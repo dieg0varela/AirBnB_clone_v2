@@ -148,7 +148,7 @@ class HBNBCommand(cmd.Cmd):
         new_instance.__dict__ = attrs
 
         print(new_instance.id)
-        storage.new(new_instance)
+        #storage.new(new_instance)
         storage.save()
 
     def help_create(self):
@@ -245,9 +245,9 @@ class HBNBCommand(cmd.Cmd):
                 Session = sessionmaker(bind=engine)
                 new_session = Session()
                 rows = new_session.query(eval(args)).all()
-                print(rows)
-                for i in range(0, len(rows)):
-                    print_list.append(rows[i])
+                for item in rows:
+                    item.__dict__ = item.to_dict()
+                    print_list.append(item)
         else:
             for k, v in storage._FileStorage__objects.items():
                 print_list.append(str(v))
