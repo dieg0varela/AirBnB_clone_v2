@@ -148,7 +148,7 @@ class HBNBCommand(cmd.Cmd):
         new_instance.__dict__ = attrs
 
         print(new_instance.id)
-        #storage.new(new_instance)
+        storage.new(new_instance)
         storage.save()
 
     def help_create(self):
