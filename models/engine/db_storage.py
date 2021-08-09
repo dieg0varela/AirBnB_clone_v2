@@ -1,7 +1,8 @@
 #!/usr/bin/python3
 """DB Storage Module"""
 
-from AirBnB_clone_v2.models.base_model import Base, BaseModel
+from sqlalchemy.orm.session import Session
+from models.base_model import Base, BaseModel
 from os import getenv
 from sqlalchemy.engine import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
@@ -29,8 +30,8 @@ class DBStorage:
                                       pool_pre_ping=True)
         if (getenv("HBNB_ENV") == "test"):
             Base.metadata.drop_all(self.__engine)
-        self.__session = sessionmaker()
-        self.__session.configure(bind=self.__engine)
+        new_session = sessionmaker(bind=self.__engine)
+        self.__session = new_session()
 
     def all(self, cls=None):
         """Query in current db all objs deptending of cls name"""
@@ -53,20 +54,21 @@ class DBStorage:
 
     def new(self, obj):
         """Add the object to the current database session"""
-        #Dudoso
-        self.__session.add(obj.__class__)
-    
+        self.__session.add(obj)
+
     def save(self):
         """Commit all changes to the current database"""
         self.__session.commit()
 
     def delete(self, obj=None):
         """Delete from the current database session"""
-        self.__session.delete(obj)
+        if obj is not None:
+            self.__session.delete(obj)
 
     def reload(self):
         """create all tables in the database and the current db session"""
         Base.metadata.create_all(self.__engine)
         self.__session = sessionmaker(bind=self.__engine,
                                       expire_on_commit=False)
-        self.__session = scoped_session(self.__session)
+        Session = scoped_session(self.__session)
+        self.__session = Session()

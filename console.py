@@ -1,8 +1,11 @@
 #!/usr/bin/python3
 """ Console Module """
 import cmd
+from os import getenv
 import sys
 from models.base_model import BaseModel
+from sqlalchemy import (create_engine)
+from sqlalchemy.orm import session, sessionmaker
 from models.__init__ import storage
 from models.user import User
 from models.place import Place
@@ -227,9 +230,21 @@ class HBNBCommand(cmd.Cmd):
             if args not in HBNBCommand.classes:
                 print("** class doesn't exist **")
                 return
-            for k, v in storage._FileStorage__objects.items():
-                if k.split('.')[0] == args:
-                    print_list.append(str(v))
+            if (getenv("HBNB_TYPE_STORAGE") != "db"):
+                for k, v in storage._FileStorage__objects.items():
+                    if k.split('.')[0] == args:
+                        print_list.append(str(v))
+            else:
+                engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'
+                                      .format(getenv("HBNB_MYSQL_USER"),
+                                              getenv("HBNB_MYSQL_PWD"),
+                                              getenv("HBNB_MYSQL_HOST"),
+                                              getenv("HBNB_MYSQL_DB")),
+                                      pool_pre_ping=True)
+                Session = sessionmaker(bind=engine)
+                new_session = Session()
+                for item in new_session.query(eval(args)).all():
+                    print_list.append(item)
         else:
             for k, v in storage._FileStorage__objects.items():
                 print_list.append(str(v))

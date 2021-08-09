@@ -15,7 +15,8 @@ class FileStorage:
 
         ret_dic = {}
         for key in FileStorage.__objects:
-            if (FileStorage.__objects[key].__class__ == cls):
+            cls_name = key.split('.')[0]
+            if (cls_name == cls.__name__):
                 ret_dic[key] = FileStorage.__objects[key]
         return ret_dic
 
