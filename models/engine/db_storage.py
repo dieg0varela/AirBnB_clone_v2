@@ -39,16 +39,16 @@ class DBStorage:
         classes = []
 
         if cls is None:
-           classes = [
+            classes = [
                     BaseModel, User, Place,
                     State, City, Amenity, Review
                     ]
-        else:
-            classes = [cls]
+            else:
+                classes = [cls]
 
         for i in range(0, len(classes)):
             for inst in self.__session.query(classes[i]):
-                ret_dict[classes[i].__name__ +"."+inst.id] = inst
+                ret_dict[classes[i].__name__ + "." + inst.id] = inst
 
         return ret_dict
 
