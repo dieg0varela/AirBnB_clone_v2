@@ -2,10 +2,8 @@
 """This module defines a class User"""
 from sqlalchemy.orm import relationship
 from models.base_model import BaseModel, Base
-from sqlalchemy.sql.expression import null
 from sqlalchemy.sql.schema import Column
 from sqlalchemy.sql.sqltypes import String
-from models import storage
 
 
 class User(BaseModel, Base):
