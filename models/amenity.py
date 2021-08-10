@@ -9,5 +9,5 @@ from sqlalchemy.sql.sqltypes import String
 class Amenity(BaseModel, Base):
     __tablename__ = "amenities"
     name = Column(String(128), nullable=False)
-    place_amenities = relationship("Place", secundary="place_amenities",
+    place_amenities = relationship("Place", secondary="place_amenities",
                                    back_populates="amenities")
