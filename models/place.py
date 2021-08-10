@@ -7,7 +7,7 @@ from models.base_model import BaseModel, Base
 from sqlalchemy.orm import relationship
 from models.review import Review
 from models import storage
-from sys import getenv
+from os import getenv
 
 
 class Place(BaseModel, Base):
