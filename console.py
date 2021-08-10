@@ -236,18 +236,10 @@ class HBNBCommand(cmd.Cmd):
                     if k.split('.')[0] == args:
                         print_list.append(str(v))
             else:
-                engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'
-                                      .format(getenv("HBNB_MYSQL_USER"),
-                                              getenv("HBNB_MYSQL_PWD"),
-                                              getenv("HBNB_MYSQL_HOST"),
-                                              getenv("HBNB_MYSQL_DB")),
-                                      pool_pre_ping=True)
-                Session = sessionmaker(bind=engine)
-                new_session = Session()
-                rows = new_session.query(eval(args)).all()
-                for item in rows:
-                    item.__dict__ = item.to_dict()
-                    print_list.append(item)
+                ret_dict = storage.all(eval(args))
+                for key in ret_dict:
+                    ret_dict[key].__dict__ = ret_dict[key].to_dict()
+                    print_list.append(ret_dict[key])
         else:
             for k, v in storage._FileStorage__objects.items():
                 print_list.append(str(v))

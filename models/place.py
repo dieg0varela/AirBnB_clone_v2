@@ -1,11 +1,13 @@
 #!/usr/bin/python3
 """ Place Module for HBNB project """
-from sqlalchemy.sql.expression import column, null
+from sqlalchemy import Table
+from sqlalchemy.sql.expression import null
 from sqlalchemy.sql.schema import Column, ForeignKey
 from sqlalchemy.sql.sqltypes import Float, Integer, String
 from models.base_model import BaseModel, Base
 from sqlalchemy.orm import relationship
 from models.review import Review
+from models.amenity import Amenity
 from models import storage
 from os import getenv
 
@@ -23,11 +25,28 @@ class Place(BaseModel, Base):
     price_by_night = Column(Integer, default=0, nullable=False)
     latitude = Column(Float)
     longitude = Column(Float)
+    place_amenity = Table('place_amenity', Base.metadata,
+                          Column(
+                                 'place_id', String(60),
+                                 ForeignKey("places.id"),
+                                 primary_key=True,
+                                 nullable=False
+                                 ),
+                          Column(
+                                 'amenity_id', String(60),
+                                 ForeignKey("amenities.id"),
+                                 primary_key=True,
+                                 nullable=False
+                                 ),
+                         )
     amenity_ids = []
 
     if getenv('HBNB_TYPE_STORAGE') == 'db':
         reviews = relationship("Review", backref="place",
                               cascade="all, delete-orphan")
+        amenities = relationship("Amenity", secondary="place_amenity",
+                              viewonly=False 
+                              )
     else:
         @property
         def reviews(self):
@@ -36,4 +55,12 @@ class Place(BaseModel, Base):
             for key in Review_objs:
                 if Review_objs[key].place_id == self.id:
                     ret.append(Review_objs[key])
+            return ret
+        @property
+        def amenities(self):
+            ret = []
+            Amenity_objs = storage.all(Amenity)
+            for key in Amenity_objs:
+                if Amenity_objs[key].amenity_id == self.id:
+                    ret.append(Amenity_objs[key])
             return ret
