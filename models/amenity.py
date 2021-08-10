@@ -7,7 +7,6 @@ from sqlalchemy.sql.sqltypes import String
 
 
 class Amenity(BaseModel, Base):
-    '''Amenity class for HBNB project'''
     __tablename__ = "amenities"
     name = Column(String(128), nullable=False)
     place_amenities = relationship("Place", secondary="place_amenity")

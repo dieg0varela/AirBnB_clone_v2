@@ -21,7 +21,6 @@ class State(BaseModel, Base):
     else:
         @property
         def cities(self):
-            '''City relation with state'''
             ret = []
             cities_objs = storage.all(City)
             for key in cities_objs:

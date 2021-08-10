@@ -37,18 +37,19 @@ class Place(BaseModel, Base):
                                  ForeignKey("amenities.id"),
                                  primary_key=True,
                                  nullable=False
-                                 ),)
+                                 ),
+                         )
     amenity_ids = []
 
     if getenv('HBNB_TYPE_STORAGE') == 'db':
         reviews = relationship("Review", backref="place",
-                               cascade="all, delete-orphan")
+                              cascade="all, delete-orphan")
         amenities = relationship("Amenity", secondary=place_amenity,
-                                 viewonly=False)
+                              viewonly=False 
+                              )
     else:
         @property
         def reviews(self):
-            '''Review relation with place'''
             ret = []
             Review_objs = storage.all(Review)
             for key in Review_objs:
@@ -58,12 +59,10 @@ class Place(BaseModel, Base):
 
         @property
         def amenities(self):
-            '''Amenities Getter'''
             return self.amenity_ids
 
         @amenities.setter
         def amenities(self, value):
-            '''Amenities relation with place'''
             if type(value) != Amenity:
                 return
             self.amenity_ids = []
