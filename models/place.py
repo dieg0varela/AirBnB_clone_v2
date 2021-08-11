@@ -48,6 +48,7 @@ class Place(BaseModel, Base):
     else:
         @property
         def reviews(self):
+            '''Review relation with place'''
             ret = []
             Review_objs = storage.all(Review)
             for key in Review_objs:
@@ -57,10 +58,12 @@ class Place(BaseModel, Base):
 
         @property
         def amenities(self):
+            '''Amenities relation wit place'''
             return self.amenity_ids
 
         @amenities.setter
         def amenities(self, value):
+            '''Amenities setter in place'''
             if type(value) != Amenity:
                 return
             self.amenity_ids = []
