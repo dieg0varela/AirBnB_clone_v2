@@ -9,6 +9,7 @@ from sqlalchemy.sql.sqltypes import String, DateTime
 
 Base = declarative_base()
 
+
 class BaseModel:
     """A base class for all hbnb models"""
 
@@ -37,7 +38,7 @@ class BaseModel:
                 aux = kwargs['created_at']
             kwargs['created_at'] = datetime.strptime(aux,
                                                      '%Y-%m-%dT%H:%M:%S.%f')
-            if '__class__' in kwargs.keys():                                        
+            if '__class__' in kwargs.keys():
                 del kwargs['__class__']
 
             if 'id' not in kwargs.keys():
