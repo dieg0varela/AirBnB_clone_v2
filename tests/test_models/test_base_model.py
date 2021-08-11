@@ -1,15 +1,16 @@
 #!/usr/bin/python3
-""" """
+""" Test of the BaseModel class """
 from models.base_model import BaseModel
 import unittest
 import datetime
 from uuid import UUID
 import json
 import os
+import pep8
 
 
 class test_basemodel(unittest.TestCase):
-    """ """
+    """ BaseModel class test """
 
     def __init__(self, *args, **kwargs):
         """ """
@@ -97,3 +98,9 @@ class test_basemodel(unittest.TestCase):
         n = new.to_dict()
         new = BaseModel(**n)
         self.assertFalse(new.created_at == new.updated_at)
+
+    def test_pep8(self):
+        """ Pep8 Style """
+        style = pep8.StyleGuide(quiet=True)
+        p = style.check_files(['models/base_model.py'])
+        self.assertEqual(p.total_errors, 0, "pep8 error")
