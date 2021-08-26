@@ -4,7 +4,7 @@
 from fabric.api import *
 from datetime import datetime
 
-env.hosts = ['pastrana.tech','35.229.44.12']
+env.hosts = ['pastrana.tech', '35.229.44.12']
 env.user = 'ubuntu'
 
 
@@ -19,6 +19,7 @@ def do_pack():
         return ("versions/" + name)
     except:
         return (None)
+
 
 def do_deploy(archive_path):
     '''Deploy the tgz file in the server'''
