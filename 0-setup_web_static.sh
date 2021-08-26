@@ -14,6 +14,6 @@ printf %s "<html>
 " > /data/web_static/releases/test/index.html
 ln -sf /data/web_static/releases/test/ /data/web_static/current
 chown -R ubuntu:ubuntu /data/
-sed -i "/server_name _/a \        location /hbnb_static/ {\n      alias /data/web_static/current/;\n      autoindex on;\n }\n" /etc/nginx/sites-available/default
+sed -i "/server_name _/a \        location /hbnb_static/ {\n      alias /data/web_static/current/;\n }\n" /etc/nginx/sites-available/default
 service nginx restart
 exit 0
