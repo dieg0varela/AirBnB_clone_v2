@@ -8,7 +8,7 @@ printf %s "<html>
   <head>
   </head>
   <body>
-    Holberton School HBNB
+    Holberton School
   </body>
 </html>
 " > /data/web_static/releases/test/index.html
