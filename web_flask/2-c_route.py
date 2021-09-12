@@ -15,6 +15,7 @@ def hbnb():
     '''Print HBNB'''
     return 'HBNB'
 
+
 @app.route('/c/<text>', strict_slashes=False)
 def c(text):
     '''Print C with the variable text'''
