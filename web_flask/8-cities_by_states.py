@@ -10,7 +10,7 @@ app = Flask(__name__)
 def cities():
     '''Print Cities_by_StatesList'''
     return render_template('/8-cities_by_states.html',
-                           states=storage.all(State).values())
+                           states=storage.all(State))
 
 
 @app.teardown_appcontext
